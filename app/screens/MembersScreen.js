@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {
   FlatList,
+  Image,
   Platform,
   StyleSheet,
   Text,
@@ -18,7 +19,7 @@ import ListItem from '../components/ListItem';
 const personsList = [
   {
     id: 1,
-    image: require('../assets/image_placeholder.jpg'),
+    image: undefined,
     name: 'Shahzaib',
     email: 'email@gmail.com',
     role: 'Manager',
@@ -26,7 +27,7 @@ const personsList = [
   },
   {
     id: 2,
-    image: require('../assets/image_placeholder.jpg'),
+    image: undefined,
     name: 'Ahmad',
     email: 'email@gmail.com',
     role: 'Manager',
@@ -34,7 +35,7 @@ const personsList = [
   },
   {
     id: 3,
-    image: require('../assets/image_placeholder.jpg'),
+    image: undefined,
     name: 'Maazu',
     email: 'email@gmail.com',
     role: 'Manager',
@@ -42,7 +43,7 @@ const personsList = [
   },
   {
     id: 4,
-    image: require('../assets/image_placeholder.jpg'),
+    image: undefined,
     name: 'Nomi',
     email: 'email@gmail.com',
     role: 'Manager',
@@ -50,7 +51,7 @@ const personsList = [
   },
   {
     id: 5,
-    image: require('../assets/image_placeholder.jpg'),
+    image: undefined,
     name: 'Juni',
     email: 'email@gmail.com',
     role: 'Recruiter',
@@ -58,7 +59,7 @@ const personsList = [
   },
   {
     id: 6,
-    image: require('../assets/image_placeholder.jpg'),
+    image: undefined,
     name: 'Me',
     email: 'email@gmail.com',
     role: 'Recruiter',
@@ -77,7 +78,7 @@ const MemberScreen = ({style, route}) => {
     let count = personsList.length;
     const object = {
       id: count + 1,
-      image: require('../assets/image_placeholder.jpg'),
+      image: route.params.values.image.assets[0].uri,
       name: route.params.values.name,
       email: route.params.values.email,
       role: route.params.values.role,
@@ -142,6 +143,7 @@ const MemberScreen = ({style, route}) => {
               backgroundColor:
                 index % 2 == 0 ? 'white' : colors.secondaryVeryLight,
             }}
+            source={item.image}
           />
         )}
         ItemSeparatorComponent={() => <HorizontalDivider />}

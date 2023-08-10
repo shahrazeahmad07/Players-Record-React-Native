@@ -4,12 +4,14 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import colors from '../config/colors';
 
-const ListItem = ({style, name, role, working}) => {
+const ListItem = ({style, name, role, working, source}) => {
   return (
     <View style={[styles.container, style]}>
       <Image
         style={styles.image}
-        source={require('../assets/image_placeholder.jpg')}
+        source={
+          source ? {uri: source} : require('../assets/image_placeholder.jpg')
+        }
       />
       <View style={styles.textContainer}>
         <Text style={styles.name}>{name}</Text>
@@ -38,6 +40,7 @@ const styles = StyleSheet.create({
     height: 65,
     borderRadius: 33,
     marginStart: 2,
+    resizeMode: 'contain',
   },
   textContainer: {
     paddingStart: 20,

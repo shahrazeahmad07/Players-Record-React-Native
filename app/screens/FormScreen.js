@@ -51,7 +51,7 @@ const FormScreen = ({navigation}) => {
             gender: '',
             switchValue: false,
             isWorking: 'Working',
-            image: {assets: [{}]},
+            image: undefined,
           }}
           onSubmit={(values, {resetForm}) => {
             navigation.navigate('Show Members', {
@@ -92,7 +92,7 @@ const FormScreen = ({navigation}) => {
                 <CircularImage style={styles.image} source={values.image} />
               </TouchableOpacity>
               {/* idher I have to implement the error component of required image}*/}
-              {/* {errors.image && <ErrorComponent errorText={errors.image} />} */}
+              {errors.image && <ErrorComponent errorText={errors.image} />}
               <FormField
                 heading="Name"
                 placeholder="Enter Name"

@@ -1,7 +1,14 @@
 import React from 'react';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
+import {launchImageLibrary} from 'react-native-image-picker';
 
 import FormField from '../components/FormField';
 import Dropdown from '../components/AppDropdown';
@@ -28,6 +35,7 @@ const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label('Email'),
   role: Yup.string().required().label('Role'),
   gender: Yup.string().required().label('Gender'),
+  image: Yup.object().required().label('Image'),
 });
 
 const FormScreen = ({navigation}) => {
@@ -43,6 +51,7 @@ const FormScreen = ({navigation}) => {
             gender: '',
             switchValue: false,
             isWorking: 'Working',
+            image: {assets: [{}]},
           }}
           onSubmit={(values, {resetForm}) => {
             navigation.navigate('Show Members', {
@@ -60,8 +69,30 @@ const FormScreen = ({navigation}) => {
             errors,
           }) => (
             <>
-              <CircularImage style={styles.image} />
-
+              <TouchableOpacity
+                onPress={() => {
+                  let options = {
+                    mediaType: 'photo',
+                    quality: 1,
+                  };
+                  launchImageLibrary(options, response => {
+                    if (response.didCancel) {
+                      alert('Canceled');
+                      return;
+                    } else if (response.errorCode == 'permission') {
+                      alert('Permission not satisfied');
+                      return;
+                    } else if (response.errorCode == 'others') {
+                      alert(response.errorMessage);
+                      return;
+                    }
+                    setFieldValue('image', response);
+                  });
+                }}>
+                <CircularImage style={styles.image} source={values.image} />
+              </TouchableOpacity>
+              {/* idher I have to implement the error component of required image}*/}
+              {/* {errors.image && <ErrorComponent errorText={errors.image} />} */}
               <FormField
                 heading="Name"
                 placeholder="Enter Name"

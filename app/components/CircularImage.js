@@ -1,13 +1,17 @@
 import React from 'react';
-import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, View} from 'react-native';
 import colors from '../config/colors';
 
-const CircularImage = ({style}) => {
+const CircularImage = ({style, source = {assets: [{}]}}) => {
   return (
     <View style={[styles.container, style]}>
       <Image
         style={styles.image}
-        source={require('../assets/image_placeholder.jpg')}
+        source={
+          source.assets[0].uri
+            ? {uri: source.assets[0].uri}
+            : require('../assets/image_placeholder.jpg')
+        }
       />
     </View>
   );
@@ -25,7 +29,7 @@ const styles = StyleSheet.create({
   image: {
     width: 100,
     height: 100,
-    resizeMode: 'stretch',
+    resizeMode: 'contain',
   },
 });
 

@@ -67,9 +67,7 @@ const personsList = [
   },
 ];
 
-const retiredPersonsList = personsList.filter(
-  item => item.isWorking === 'Retired',
-);
+let retiredPersonsList;
 
 const MemberScreen = ({style, route}) => {
   const [currentSelected, setCurrentSelected] = useState(0);
@@ -86,6 +84,9 @@ const MemberScreen = ({style, route}) => {
     };
     count++;
     personsList.push(object);
+    retiredPersonsList = personsList.filter(
+      item => item.isWorking === 'Retired',
+    );
   }, []);
 
   return (

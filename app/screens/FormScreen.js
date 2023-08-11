@@ -174,6 +174,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: '900',
     color: 'black',
+    marginTop: 15,
   },
   image: {
     marginTop: 15,

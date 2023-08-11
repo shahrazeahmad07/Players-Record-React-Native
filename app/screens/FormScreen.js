@@ -67,6 +67,8 @@ const FormScreen = ({navigation}) => {
             handleReset,
             values,
             errors,
+            setFieldTouched,
+            touched,
           }) => (
             <>
               <TouchableOpacity
@@ -86,51 +88,69 @@ const FormScreen = ({navigation}) => {
                       alert(response.errorMessage);
                       return;
                     }
+                    setFieldTouched('image');
                     setFieldValue('image', response);
                   });
                 }}>
                 <CircularImage style={styles.image} source={values.image} />
               </TouchableOpacity>
-              {/* idher I have to implement the error component of required image}*/}
-              {errors.image && <ErrorComponent errorText={errors.image} />}
+              {touched.image && <ErrorComponent errorText={errors.image} />}
               <FormField
                 heading="Name"
                 placeholder="Enter Name"
                 style={styles.field}
-                onChangeText={handleChange('name')}
+                onChangeText={name => {
+                  setFieldValue('name', name);
+                  setFieldTouched('name');
+                }}
                 value={values.name}
               />
-              {errors.name && <ErrorComponent errorText={errors.name} />}
+              {errors.name && touched.name && (
+                <ErrorComponent errorText={errors.name} />
+              )}
               <FormField
                 heading="Email"
                 placeholder="Enter Email"
                 style={styles.field}
                 keyboardType="email-address"
                 textContentType="emailAddress"
-                onChangeText={handleChange('email')}
+                onChangeText={email => {
+                  setFieldValue('email', email);
+                  setFieldTouched('email');
+                }}
                 value={values.email}
               />
-              {errors.email && <ErrorComponent errorText={errors.email} />}
+              {errors.email && touched.email && (
+                <ErrorComponent errorText={errors.email} />
+              )}
               <Dropdown
                 title="Role"
                 style={styles.dropdown}
                 data={rolesList}
                 labelField="label"
                 valueField={'value'}
-                onChange={item => setFieldValue('role', item['label'])}
+                onChange={item => {
+                  setFieldValue('role', item['label']);
+                }}
                 value={values.role}
               />
-              {errors.role && <ErrorComponent errorText={errors.role} />}
+              {errors.role && touched.role && (
+                <ErrorComponent errorText={errors.role} />
+              )}
               <Dropdown
                 title="Gender"
                 style={styles.dropdown}
                 data={genderList}
                 labelField="label"
                 valueField={'value'}
-                onChange={item => setFieldValue('gender', item['label'])}
+                onChange={item => {
+                  setFieldValue('gender', item['label']);
+                }}
                 value={values.gender}
               />
-              {errors.gender && <ErrorComponent errorText={errors.gender} />}
+              {errors.gender && touched.gender && (
+                <ErrorComponent errorText={errors.gender} />
+              )}
               <AppSwitch
                 title={'Working'}
                 value={values.switchValue}

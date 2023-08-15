@@ -112,13 +112,13 @@ const FormScreen = ({navigation}) => {
                 heading="Email"
                 placeholder="Enter Email"
                 style={styles.field}
-                keyboardType="email-address"
-                textContentType="emailAddress"
                 onChangeText={email => {
                   setFieldValue('email', email);
                   setFieldTouched('email');
                 }}
                 value={values.email}
+                textContentType="emailAddress"
+                keyboardType="email-address"
               />
               {errors.email && touched.email && (
                 <ErrorComponent errorText={errors.email} />

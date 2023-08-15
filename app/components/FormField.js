@@ -6,13 +6,9 @@ const FormField = ({
   heading = '',
   placeholder = '',
   style,
-  textContentType = 'emailAddress',
-  keyboardType = 'default',
-  autoCorrect = false,
-  autoCapitalize = 'none',
-  secureTextEntry = false,
   onChangeText = text => {},
   value,
+  ...otherProps
 }) => {
   return (
     <View style={[styles.container, style]}>
@@ -20,13 +16,9 @@ const FormField = ({
       <TextInput
         style={styles.textInput}
         placeholder={placeholder}
-        textContentType={textContentType}
-        keyboardType={keyboardType}
-        autoCorrect={autoCorrect}
-        autoCapitalize={autoCapitalize}
-        secureTextEntry={secureTextEntry}
         onChangeText={onChangeText}
         value={value}
+        {...otherProps}
       />
     </View>
   );

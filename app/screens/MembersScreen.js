@@ -67,10 +67,10 @@ const personsList = [
   },
 ];
 
-let retiredPersonsList;
-
 const MemberScreen = ({style, route}) => {
   const [currentSelected, setCurrentSelected] = useState(0);
+  const [selectedList, setSelectedList] = useState([]);
+  const [searchedValue, setSearchedValue] = useState('');
 
   useEffect(() => {
     let count = personsList.length;
@@ -84,19 +84,29 @@ const MemberScreen = ({style, route}) => {
     };
     count++;
     personsList.push(object);
-    retiredPersonsList = personsList.filter(
-      item => item.isWorking === 'Retired',
-    );
+    setSelectedList(personsList);
+    // let filteredList = personsList.filter(
+    //   item => item.isWorking === 'Retired',
+    // );
   }, []);
 
   return (
     <View style={[styles.container, style]}>
       <View style={styles.topBar}>
-        <TouchableWithoutFeedback onPress={() => setCurrentSelected(0)}>
+        <TouchableWithoutFeedback
+          onPress={() => {
+            setCurrentSelected(0);
+            setSelectedList(personsList);
+          }}>
           <Text style={styles.text}>All</Text>
         </TouchableWithoutFeedback>
         <View style={styles.divider} />
-        <TouchableWithoutFeedback onPress={() => setCurrentSelected(1)}>
+        <TouchableWithoutFeedback
+          onPress={() => {
+            setCurrentSelected(1);
+            let list = personsList.filter(item => item.isWorking === 'Retired');
+            setSelectedList(list);
+          }}>
           <Text style={styles.text}>Retired</Text>
         </TouchableWithoutFeedback>
         <View
@@ -117,13 +127,20 @@ const MemberScreen = ({style, route}) => {
             placeholder="Search for person"
             style={styles.textInput}
             clearButtonMode="always"
+            value={searchedValue}
+            onChangeText={text => {
+              setSearchedValue(text);
+            }}
           />
           {Platform.OS === 'android' ? (
             <Icon2
               style={styles.reloadIcon}
-              name="reload"
-              size={18}
+              name="close"
+              size={23}
               color={colors.lightGray}
+              onPress={() => {
+                setSearchedValue('');
+              }}
             />
           ) : (
             <></>
@@ -133,7 +150,7 @@ const MemberScreen = ({style, route}) => {
       <HorizontalDivider />
       <FlatList
         style={styles.flatList}
-        data={currentSelected == 0 ? personsList : retiredPersonsList}
+        data={selectedList}
         keyExtractor={person => person.id}
         renderItem={({item, index}) => (
           <ListItem

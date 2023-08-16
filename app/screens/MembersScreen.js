@@ -72,6 +72,30 @@ const MemberScreen = ({style, route}) => {
   const [selectedList, setSelectedList] = useState([]);
   const [searchedValue, setSearchedValue] = useState('');
 
+  const retiredPeopleList = () => {
+    let list = personsList.filter(item => {
+      return item.isWorking === 'Retired';
+    });
+    setSelectedList(list);
+  };
+
+  const filterResults = text => {
+    if (text) {
+      const filteredList = selectedList.filter(item => {
+        const name = item.name ? item.name.toUpperCase() : ''.toUpperCase();
+        const filterText = text.toUpperCase();
+        return name.indexOf(filterText) > -1;
+      });
+      setSelectedList(filteredList);
+    } else {
+      if (currentSelected == 0) {
+        setSelectedList(personsList);
+      } else {
+        retiredPeopleList();
+      }
+    }
+  };
+
   useEffect(() => {
     let count = personsList.length;
     const object = {
@@ -104,8 +128,7 @@ const MemberScreen = ({style, route}) => {
         <TouchableWithoutFeedback
           onPress={() => {
             setCurrentSelected(1);
-            let list = personsList.filter(item => item.isWorking === 'Retired');
-            setSelectedList(list);
+            retiredPeopleList();
           }}>
           <Text style={styles.text}>Retired</Text>
         </TouchableWithoutFeedback>
@@ -130,6 +153,7 @@ const MemberScreen = ({style, route}) => {
             value={searchedValue}
             onChangeText={text => {
               setSearchedValue(text);
+              filterResults(text);
             }}
           />
           {Platform.OS === 'android' ? (
@@ -140,6 +164,11 @@ const MemberScreen = ({style, route}) => {
               color={colors.lightGray}
               onPress={() => {
                 setSearchedValue('');
+                if (currentSelected == 0) {
+                  setSelectedList(personsList);
+                } else {
+                  retiredPeopleList();
+                }
               }}
             />
           ) : (

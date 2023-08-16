@@ -50,7 +50,7 @@ const FormScreen = ({navigation}) => {
             role: '',
             gender: '',
             switchValue: false,
-            isWorking: 'Working',
+            isWorking: 'Retired',
             image: undefined,
           }}
           onSubmit={(values, {resetForm}) => {

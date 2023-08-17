@@ -8,6 +8,7 @@ const FormField = ({
   style,
   onChangeText = text => {},
   value,
+  innerRef,
   ...otherProps
 }) => {
   return (
@@ -18,6 +19,7 @@ const FormField = ({
         placeholder={placeholder}
         onChangeText={onChangeText}
         value={value}
+        ref={innerRef}
         {...otherProps}
       />
     </View>

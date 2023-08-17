@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -41,6 +41,8 @@ const validationSchema = Yup.object().shape({
 
 const FormScreen = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const emailRef = useRef();
+  // const roleRef = useRef();
 
   return (
     <ScrollView style={styles.container}>
@@ -64,7 +66,6 @@ const FormScreen = ({navigation}) => {
           }}
           validationSchema={validationSchema}>
           {({
-            handleChange,
             handleSubmit,
             setFieldValue,
             handleReset,
@@ -137,6 +138,11 @@ const FormScreen = ({navigation}) => {
                   setFieldTouched('name');
                 }}
                 value={values.name}
+                returnKeyType="next"
+                blurOnSubmit={false}
+                onSubmitEditing={() => {
+                  emailRef.current.focus();
+                }}
               />
               {errors.name && touched.name && (
                 <ErrorComponent errorText={errors.name} />
@@ -152,6 +158,7 @@ const FormScreen = ({navigation}) => {
                 value={values.email}
                 textContentType="emailAddress"
                 keyboardType="email-address"
+                innerRef={emailRef}
               />
               {errors.email && touched.email && (
                 <ErrorComponent errorText={errors.email} />

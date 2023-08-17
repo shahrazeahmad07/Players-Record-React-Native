@@ -8,6 +8,7 @@ import MemberScreen from './app/screens/MembersScreen';
 import HeaderBackIcon from './app/components/Header/HeaderBackIcon';
 import HeaderBackground from './app/components/Header/HeaderBackground';
 import HeaderTitle from './app/components/Header/HeaderTitle';
+import TestScreen from './app/screens/TestScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -15,6 +16,11 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        {/* <Stack.Screen
+          name="Test Screen"
+          component={TestScreen}
+          options={{header: () => {}}}
+        /> */}
         <Stack.Screen
           name="Add Member"
           component={FormScreen}

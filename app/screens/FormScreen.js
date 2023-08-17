@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
-import {launchImageLibrary} from 'react-native-image-picker';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 import FormField from '../components/FormField';
 import Dropdown from '../components/AppDropdown';
@@ -17,6 +17,7 @@ import colors from '../config/colors';
 import CircularImage from '../components/CircularImage';
 import AppSwitch from '../components/AppSwitch';
 import ErrorComponent from '../components/ErrorComponent';
+import CameraGalleryModal from '../components/CameraGalleryModal';
 
 const rolesList = [
   {label: 'Player', value: 'Player'},
@@ -39,6 +40,8 @@ const validationSchema = Yup.object().shape({
 });
 
 const FormScreen = ({navigation}) => {
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.heading}>Add Member</Text>
@@ -73,6 +76,37 @@ const FormScreen = ({navigation}) => {
             <>
               <TouchableOpacity
                 onPress={() => {
+                  setModalVisible(true);
+                }}>
+                <CircularImage style={styles.image} source={values.image} />
+              </TouchableOpacity>
+              {touched.image && <ErrorComponent errorText={errors.image} />}
+              <CameraGalleryModal
+                modalVisible={modalVisible}
+                openCamera={() => {
+                  let options = {
+                    mediaType: 'photo',
+                    quality: 1,
+                    saveToPhotos: true,
+                  };
+                  launchCamera(options, response => {
+                    if (response.didCancel) {
+                      alert('Canceled');
+                      4;
+                      return;
+                    } else if (response.errorCode == 'camera_unavailable') {
+                      alert('Camera is not available');
+                      return;
+                    } else if (response.errorCode == 'others') {
+                      alert(response.errorMessage);
+                      return;
+                    }
+                    setFieldTouched('image');
+                    setFieldValue('image', response);
+                    setModalVisible(false);
+                  });
+                }}
+                selectFromGallery={() => {
                   let options = {
                     mediaType: 'photo',
                     quality: 1,
@@ -90,11 +124,10 @@ const FormScreen = ({navigation}) => {
                     }
                     setFieldTouched('image');
                     setFieldValue('image', response);
+                    setModalVisible(false);
                   });
-                }}>
-                <CircularImage style={styles.image} source={values.image} />
-              </TouchableOpacity>
-              {touched.image && <ErrorComponent errorText={errors.image} />}
+                }}
+              />
               <FormField
                 heading="Name"
                 placeholder="Enter Name"

@@ -93,13 +93,15 @@ const FormScreen = ({navigation}) => {
                   launchCamera(options, response => {
                     if (response.didCancel) {
                       alert('Canceled');
-                      4;
+                      setModalVisible(false);
                       return;
                     } else if (response.errorCode == 'camera_unavailable') {
                       alert('Camera is not available');
+                      setModalVisible(false);
                       return;
                     } else if (response.errorCode == 'others') {
                       alert(response.errorMessage);
+                      setModalVisible(false);
                       return;
                     }
                     setFieldTouched('image');
@@ -115,12 +117,15 @@ const FormScreen = ({navigation}) => {
                   launchImageLibrary(options, response => {
                     if (response.didCancel) {
                       alert('Canceled');
+                      setModalVisible(false);
                       return;
                     } else if (response.errorCode == 'permission') {
                       alert('Permission not satisfied');
+                      setModalVisible(false);
                       return;
                     } else if (response.errorCode == 'others') {
                       alert(response.errorMessage);
+                      setModalVisible(false);
                       return;
                     }
                     setFieldTouched('image');
@@ -128,6 +133,7 @@ const FormScreen = ({navigation}) => {
                     setModalVisible(false);
                   });
                 }}
+                onPress={() => setModalVisible(false)}
               />
               <FormField
                 heading="Name"

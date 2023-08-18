@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, Modal} from 'react-native';
+import {StyleSheet, View, Modal, TouchableWithoutFeedback} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import colors from '../config/colors';
 
@@ -8,28 +8,33 @@ const CameraGalleryModal = ({
   modalVisible,
   openCamera,
   selectFromGallery,
+  onPress,
 }) => {
   return (
     <View style={[styles.container, style]}>
-      <Modal visible={modalVisible} animationType="slide" transparent>
-        <View style={styles.modalBackground}>
-          <View style={styles.bottomSheet}>
-            <Icon
-              style={styles.iconBackground}
-              name={'add-a-photo'}
-              size={30}
-              color={'black'}
-              onPress={openCamera}
-            />
-            <Icon
-              style={styles.iconBackground}
-              name={'add-photo-alternate'}
-              size={30}
-              color={'black'}
-              onPress={selectFromGallery}
-            />
+      <Modal visible={modalVisible} animationType="fade" transparent>
+        <TouchableWithoutFeedback onPress={onPress}>
+          <View style={styles.modalBackground}>
+            <TouchableWithoutFeedback onPress={() => {}}>
+              <View style={styles.bottomSheet}>
+                <Icon
+                  style={styles.iconBackground}
+                  name={'add-a-photo'}
+                  size={30}
+                  color={'black'}
+                  onPress={openCamera}
+                />
+                <Icon
+                  style={styles.iconBackground}
+                  name={'add-photo-alternate'}
+                  size={30}
+                  color={'black'}
+                  onPress={selectFromGallery}
+                />
+              </View>
+            </TouchableWithoutFeedback>
           </View>
-        </View>
+        </TouchableWithoutFeedback>
       </Modal>
     </View>
   );
@@ -40,8 +45,7 @@ const styles = StyleSheet.create({
   modalBackground: {
     flex: 1,
     flexDirection: 'column-reverse',
-    backgroundColor: colors.lightGray,
-    opacity: 0.9,
+    backgroundColor: '#D3D3D399',
   },
   bottomSheet: {
     paddingVertical: 30,

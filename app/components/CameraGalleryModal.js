@@ -12,7 +12,11 @@ const CameraGalleryModal = ({
 }) => {
   return (
     <View style={[styles.container, style]}>
-      <Modal visible={modalVisible} animationType="fade" transparent>
+      <Modal
+        visible={modalVisible}
+        animationType="slide"
+        transparent
+        onRequestClose={onPress}>
         <TouchableWithoutFeedback onPress={onPress}>
           <View style={styles.modalBackground}>
             <TouchableWithoutFeedback onPress={() => {}}>

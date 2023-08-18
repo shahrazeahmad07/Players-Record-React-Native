@@ -67,21 +67,22 @@ const personsList = [
   },
 ];
 
+let retiredPersonsList;
+
 const MemberScreen = ({style, route}) => {
   const [currentSelected, setCurrentSelected] = useState(0);
   const [selectedList, setSelectedList] = useState([]);
   const [searchedValue, setSearchedValue] = useState('');
 
-  const retiredPeopleList = () => {
-    let list = personsList.filter(item => {
-      return item.isWorking === 'Retired';
-    });
-    setSelectedList(list);
-  };
-
   const filterResults = text => {
     if (text) {
-      const filteredList = selectedList.filter(item => {
+      let masterList;
+      if (currentSelected == 0) {
+        masterList = personsList;
+      } else {
+        masterList = retiredPersonsList;
+      }
+      const filteredList = masterList.filter(item => {
         const name = item.name ? item.name.toUpperCase() : ''.toUpperCase();
         const filterText = text.toUpperCase();
         return name.indexOf(filterText) > -1;
@@ -91,7 +92,7 @@ const MemberScreen = ({style, route}) => {
       if (currentSelected == 0) {
         setSelectedList(personsList);
       } else {
-        retiredPeopleList();
+        setSelectedList(retiredPersonsList);
       }
     }
   };
@@ -108,6 +109,9 @@ const MemberScreen = ({style, route}) => {
     };
     count++;
     personsList.push(object);
+    retiredPersonsList = personsList.filter(
+      item => item.isWorking === 'Retired',
+    );
     setSelectedList(personsList);
     // let filteredList = personsList.filter(
     //   item => item.isWorking === 'Retired',
@@ -128,7 +132,7 @@ const MemberScreen = ({style, route}) => {
         <TouchableWithoutFeedback
           onPress={() => {
             setCurrentSelected(1);
-            retiredPeopleList();
+            setSelectedList(retiredPersonsList);
           }}>
           <Text style={styles.text}>Retired</Text>
         </TouchableWithoutFeedback>
@@ -167,7 +171,7 @@ const MemberScreen = ({style, route}) => {
                 if (currentSelected == 0) {
                   setSelectedList(personsList);
                 } else {
-                  retiredPeopleList();
+                  setSelectedList(retiredPersonsList);
                 }
               }}
             />

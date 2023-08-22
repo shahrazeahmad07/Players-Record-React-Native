@@ -9,6 +9,7 @@ import HeaderBackIcon from './app/components/Header/HeaderBackIcon';
 import HeaderBackground from './app/components/Header/HeaderBackground';
 import HeaderTitle from './app/components/Header/HeaderTitle';
 import TestScreen from './app/screens/TestScreen';
+import HeaderRightIcon from './app/components/Header/HeaderRightIcon';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,18 +23,26 @@ const App = () => {
           options={{header: () => {}}}
         /> */}
         <Stack.Screen
-          name="Add Member"
-          component={FormScreen}
-          options={{header: () => {}}}
-        />
-        <Stack.Screen
-          name="Show Members"
+          name="Members"
           component={MemberScreen}
           options={({navigation}) => {
             return {
               headerBackground: () => <HeaderBackground />,
+              // headerLeft: () => <HeaderBackIcon navigation={navigation} />,
+              headerTitle: () => <HeaderTitle title={'Members'} />,
+              headerRight: () => <HeaderRightIcon navigation={navigation} />,
+              headerBackVisible: false,
+            };
+          }}
+        />
+        <Stack.Screen
+          name="Add Member"
+          component={FormScreen}
+          options={({navigation}) => {
+            return {
+              headerBackground: () => <HeaderBackground />,
               headerLeft: () => <HeaderBackIcon navigation={navigation} />,
-              headerTitle: () => <HeaderTitle />,
+              headerTitle: () => <HeaderTitle title={'Add Member'} />,
               headerBackVisible: false,
             };
           }}

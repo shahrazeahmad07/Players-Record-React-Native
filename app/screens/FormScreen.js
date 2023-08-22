@@ -59,7 +59,10 @@ const FormScreen = ({navigation}) => {
             image: undefined,
           }}
           onSubmit={(values, {resetForm}) => {
-            navigation.navigate('Show Members', {
+            // navigation.navigate('Show Members', {
+            //   values: values,
+            // });
+            navigation.navigate('Members', {
               values: values,
             });
             resetForm();

@@ -11,6 +11,10 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import Icon2 from 'react-native-vector-icons/Ionicons';
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
 
 import colors from '../config/colors';
 import HorizontalDivider from '../components/HorizontalDivider';
@@ -26,43 +30,11 @@ const personsList = [
     isWorking: 'Working',
   },
   {
-    id: 2,
-    image: undefined,
-    name: 'Ahmad',
-    email: 'email@gmail.com',
-    role: 'Manager',
-    isWorking: 'Working',
-  },
-  {
     id: 3,
     image: undefined,
-    name: 'Maazu',
+    name: 'Shahbaz Sharif',
     email: 'email@gmail.com',
     role: 'Manager',
-    isWorking: 'Retired',
-  },
-  {
-    id: 4,
-    image: undefined,
-    name: 'Nomi',
-    email: 'email@gmail.com',
-    role: 'Manager',
-    isWorking: 'Working',
-  },
-  {
-    id: 5,
-    image: undefined,
-    name: 'Juni',
-    email: 'email@gmail.com',
-    role: 'Recruiter',
-    isWorking: 'Retired',
-  },
-  {
-    id: 6,
-    image: undefined,
-    name: 'Me',
-    email: 'email@gmail.com',
-    role: 'Recruiter',
     isWorking: 'Retired',
   },
 ];
@@ -99,16 +71,18 @@ const MemberScreen = ({style, route}) => {
 
   useEffect(() => {
     let count = personsList.length;
-    const object = {
-      id: count + 1,
-      image: route.params.values.image.assets[0].uri,
-      name: route.params.values.name,
-      email: route.params.values.email,
-      role: route.params.values.role,
-      isWorking: route.params.values.isWorking,
-    };
-    count++;
-    personsList.push(object);
+    if (route.params) {
+      const object = {
+        id: count + 2,
+        image: route.params.values.image.assets[0].uri,
+        name: route.params.values.name,
+        email: route.params.values.email,
+        role: route.params.values.role,
+        isWorking: route.params.values.isWorking,
+      };
+      count++;
+      personsList.push(object);
+    }
     retiredPersonsList = personsList.filter(
       item => item.isWorking === 'Retired',
     );
@@ -116,7 +90,7 @@ const MemberScreen = ({style, route}) => {
     // let filteredList = personsList.filter(
     //   item => item.isWorking === 'Retired',
     // );
-  }, []);
+  }, [route.params]);
 
   return (
     <View style={[styles.container, style]}>
@@ -232,7 +206,7 @@ const styles = StyleSheet.create({
     height: 17,
     backgroundColor: colors.primary,
     top: 50,
-    left: 68,
+    left: wp(24),
     position: 'absolute',
     transform: [{rotate: '45deg'}],
   },
@@ -241,7 +215,7 @@ const styles = StyleSheet.create({
     height: 17,
     backgroundColor: colors.primary,
     top: 50,
-    right: 68,
+    right: wp(24),
     position: 'absolute',
     transform: [{rotate: '45deg'}],
   },
